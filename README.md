@@ -10,7 +10,9 @@ apt install python git
 ## Arch Linux,Manjaro,Arch bang,etc...
 pacman -Syyu python git
 
-# Como instalar
+# Como instalar o script
+pip3 install moviepy pytube
+
 git clone https://github.com/oporadokrl/ytmp3-dl.git
 
 cd ytmp3-dl
