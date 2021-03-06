@@ -12,7 +12,11 @@ Y='\033[1;33m'
 G='\033[1;32m'
 RT='\033[;0m'
 
-getos = os.system('uname -a | grep Android')
+########################
+termux='1'
+out_mp3='/sdcard/mp3'
+out_mp4='/sdcard/mp4'
+########################
 
 Sair=False
 
@@ -45,9 +49,9 @@ while(Sair == False):
     		clip = mp.AudioFileClip(full_path).subclip(10,)
     		clip.write_audiofile(output_path)
     	os.system('cd ./downloads && rm -rf *.mp4')
-    if getos == 'Android':
-    	os.system('cd ./downloads && mv *.mp4 /sdcard && mv *.mp3 /sdcard')
     print(f'{C}[{G}i{C}] Video baixado.')
+    if termux == '1':
+    	os.system('cd downloads && mv *.mp3 {} && mv *.mp4 {}'.format(out_mp3,out_mp4))
     print()
     print(f'{C}[{G}i{C}] Deseja baixar outro video?')
     print(f'{C}[{G}1{C}] Sim')
