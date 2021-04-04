@@ -12,9 +12,9 @@ except:
 	choice = input('===>')
 	if choice == 's' or choice == 'S':
 		os.system('pip3 install pytube')
+		from pytube import YouTube
 	else:
 		exit()
-	from pytube import YouTube	
 
 CO='\033[m'
 R='\033[1;31m'
@@ -28,7 +28,7 @@ RT='\033[;0m'
 arch = os.system('uname -a | grep -o "arm"')
 
 if arch == "arm":
-	f = open('path','r+')
+	f = open('path','a')
 	if os.path.exists('path'):
 		pathing = f.read()
 	else:
@@ -44,6 +44,47 @@ else:
 	os.system('mkdir downloads')
 
 Sair=False
+
+def download(url):
+    file = YouTube(url).streams.first()
+    file.download(output_path="downloads")
+def downloadmp3(url):
+    file = YouTube(url)
+    final = file.streams.filter(only_audio=True)
+    final[0].download(output_path="downloads")
+    tgt_folder = "downloads"
+    for file in [n for n in os.listdir(tgt_folder) if re.search('mp4',n)]:
+    	full_path = os.path.join(tgt_folder, file)
+    	output_path = os.path.join(tgt_folder, os.path.splitext(file)[0] + '.mp3')
+    	os.rename(full_path,output_path)
+    os.system('cd ./downloads && rm -rf *.mp4')
+
+if os.path.exists('list.txt'):
+    listfile = open('list.txt','r')
+    lista=listfile.read().split()
+    listfile.close()
+    try:
+        print(f'{C}[{G}i{C}] Formato definido: {lista[0]}')
+    except:
+        print(f'{C}[{R}ERROR{C}] Formato da lista inválido.')
+        exit()
+    if lista[0] == "mp4":
+        for url in lista:
+            if url == 'mp4':
+                pass
+            else:
+                print(f'{C}[{G}i{C}]  Baixando {url}')
+                download(url)
+        print(f'{C}[{G}i{C}] Concluido.')
+    elif lista[0] == "mp3":
+        for url in lista:
+            if url == 'mp3':
+                pass
+            else:
+                print(f'{C}[{G}i{C}]  Baixando {url}')
+                downloadmp3(url)
+        print(f'{C}[{G}i{C}] Concluido.')
+    exit()
 
 while(Sair == False):
     os.system('clear')
@@ -65,19 +106,10 @@ while(Sair == False):
     print(f'{C}[{G}i{C}] Baixando...por favor aguarde')
     
     if filetype == '1':
-        file = YouTube(url).streams.first()
-        file.download(output_path="downloads")
+        download(url)
     
     if filetype == '2':
-    	file = YouTube(url)
-    	final = file.streams.filter(only_audio=True)
-    	final[0].download(output_path="downloads")
-    	tgt_folder = "downloads"
-    	for file in [n for n in os.listdir(tgt_folder) if re.search('mp4',n)]:
-    		full_path = os.path.join(tgt_folder, file)
-    		output_path = os.path.join(tgt_folder, os.path.splitext(file)[0] + '.mp3')
-    		os.rename(full_path,output_path)
-    	os.system('cd ./downloads && rm -rf *.mp4')
+        downloadmp3(url)
     
     print(f'{C}[{G}i{C}] Video baixado.')
     

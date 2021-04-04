@@ -1,3 +1,6 @@
+# Update 0.3
+1. Modo lista implementado
+
 # Update 0.2
 1. Removida dependência _moviepy_
 2. Sistema de instalação de dependências automáticas
