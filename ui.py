@@ -1,4 +1,4 @@
-try:
+﻿try:
     import tkinter,tkinter.messagebox
     from tkinter import *
     from tkinter.ttk import *
@@ -15,7 +15,7 @@ import os,re
 
 janela = tkinter.Tk()
 janela.title("Youtube download")
-janela.geometry("400x100")
+janela.geometry("370x100")
 
 e1=tkinter.StringVar()
 e1.set("")
@@ -26,8 +26,8 @@ status = StringVar()
 status.set("Ready")
 #style.configure('W.TButton', font =('calibri', 10, 'bold', 'underline'),foreground = 'red',background='black')
 
-img1=PhotoImage(file='icon.png')
-janela.iconphoto(False,img1)
+#img1=PhotoImage(file='icon.png')
+#janela.iconphoto(False,img1)
 janela.resizable(False, False)
 
 if os.path.exists('listamp3'):
@@ -39,36 +39,31 @@ def paste(e1):
     e1.widget.event_generate('<Control-v>')
 
 def download(url):
+    url = str(url)
     status.set("Baixando")
     janela.update_idletasks()
-    try:
-        progress['value'] = 20
-        janela.update_idletasks()
-        ##########################
-        progress['value'] = 40
-        janela.update_idletasks()
-        file = YouTube(url).streams.first()
-        progress['value'] = 60
-        janela.update_idletasks()
-        file.download(output_path="downloads")
-        progress['value'] = 80
-        janela.update_idletasks()
-        progress['value'] = 90
-        janela.update_idletasks()
-        progress['value'] = 100
-        janela.update_idletasks()
-        status.set("Completed")
-        janela.update_idletasks
-    except:
-        tkinter.messagebox.showerror("Erro","Aconteceu um erro\nE o video não pode ser baixado.")
+    progress['value'] = 40
+    janela.update_idletasks()
+    file = YouTube(url).streams.first()
+    progress['value'] = 60
+    janela.update_idletasks()
+    file.download(output_path="downloads")
+    progress['value'] = 80
+    janela.update_idletasks()
+    progress['value'] = 90
+    janela.update_idletasks()
+    progress['value'] = 100
+    janela.update_idletasks()
+    status.set("Completed")
+    janela.update_idletasks
+    #except:
+    #    tkinter.messagebox.showerror("Erro","Aconteceu um erro\nE o video não pode ser baixado.")
     e1.delete(0,'end')
 
 def downloadmp3(url):
+    url = str(url)
     status.set("Baixando")
     janela.update_idletasks()
-    progress['value'] = 0
-    janela.update_idletasks()
-    ##########################
     progress['value'] = 20
     janela.update_idletasks()
     file = YouTube(url)
@@ -101,7 +96,7 @@ def downloadmp3(url):
 
 def adicionarlista():
     lista=open('listamp4','a')
-    temp = str(e1.get() + ',')
+    temp = str(',' + e1.get())
     lista.write(temp)
     lista.close()
     e1.delete(0,"end")
@@ -110,7 +105,7 @@ def adicionarlista():
 
 def adicionarlistamp3():
     lista=open('listamp3','a')
-    temp = str(e1.get() + ',')
+    temp = str(',' + e1.get())
     lista.write(temp)
     lista.close()
     e1.delete(0,"end")
@@ -135,39 +130,54 @@ def downloadlista():
     except:
         lerror=1
         pass
+    tkinter.messagebox.showerror("Erro","VERIFIQUE")
     if lerror==1 and l1error==1:
         tkinter.messagebox.showerror("Erro","Nenhum item na lista.")
     elif lerror==0 and l1error==1:
         for url in lista2:
             task = task + 1
-            download(url)
-            status.set("Baixando ",task)
-            janela.update_idletasks()
+            print(url)
+            print(task)
+            if task == 1:
+                pass
+            else:
+                download(url)
+                status.set(f"Baixando {task}")
+                janela.update_idletasks()
     elif lerror==1 and l1error==0:
         for url in lista1:
             task = task + 1
-            downloadmp3(url)
-            status.set("Baixando ",task)
-            janela.update_idletasks()
+            if task == 1:
+                pass
+            else:
+                downloadmp3(url)
+                status.set(f"Baixando {task}")
+                janela.update_idletasks()
     elif lerror==0 and l1error==0:
         for url in lista1:
             task = task + 1
-            downloadmp3(url)
-            status.set("Baixando ",task)
-            janela.update_idletasks()
+            if task == 1:
+                pass
+            else:
+                downloadmp3(url)
+                status.set(f"Baixando {task}")
+                janela.update_idletasks()
         for url in lista2:
             task = task + 1
-            download(url)
-            status.set("Baixando ",task)
-            janela.update_idletasks()
+            if task == 1:
+                pass
+            else:
+                download(url)
+                status.set(f"Baixando {task}")
+                janela.update_idletasks()
     status.set("Completado - Pronto")
+    janela.update_idletasks()
     try:
         os.remove('listamp3')
         os.remove('listamp4')
     except:
         tkinter.messagebox.showerror("Erro","Ocorreu um erro\nao tentar deletar a lista.")
-    janela.update_idletasks()
-
+        
 def singlefilemp3():
     url=e1.get()
     download(url)
