@@ -86,10 +86,9 @@ def downloadmp3():
 progress = Progressbar(janela, orient = HORIZONTAL,length = 100, mode = 'determinate')
 progress.pack(side=BOTTOM)
 
-l1 = Label(janela,style='W.TButton',text="Digite a URL").pack(side=LEFT)
+l1 = Label(janela,text="Digite a URL").pack(side=LEFT)
 
-exit = Button(janela,style='W.TButton',command = janela.destroy)
-exit.pack(side=RIGHT)
+exit = Button(janela,style='W.TButton',text="Sair",command = janela.destroy).pack(side=RIGHT)
 
 b1 = Button(janela,text = "Baixar MP4!",style='W.TButton',command = download)
 b1.pack(side=RIGHT)
